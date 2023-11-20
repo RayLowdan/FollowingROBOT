@@ -1,7 +1,7 @@
 # follow bot system
 ## 使用程式庫
 > [!NOTE]
-> 函示庫版本可能有所變動，本專案使用之函示庫版本，如下列所示
+> 函式庫版本可能有所變動，本專案使用之函式庫版本，如下列所示
 
 1.[NewPing](https://bitbucket.org/teckel12/arduino-new-ping/wiki/Home) v1.9.7
 
