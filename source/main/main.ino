@@ -17,7 +17,9 @@
 unsigned int distance = 0;
 unsigned int Right_Value = 0;
 unsigned int Left_Value = 0;
-int d=10;
+int D=30;
+int d = 5;
+int FPS = 100;
   
 
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
@@ -28,36 +30,35 @@ AF_DCMotor Motor2(2,MOTOR12_1KHZ);
 AF_DCMotor Motor3(3,MOTOR34_1KHZ);
 AF_DCMotor Motor4(4,MOTOR34_1KHZ);
 
-//  Servo myservo; //create servo object to control the servo:
-//  int pos=0;     //variable to store the servo position:
+Servo myservo; //create servo object to control the servo:
+int pos=0;     //variable to store the servo position:
 
-void setup() {
-Serial.begin(9600); //initailize serial communication at 9600 bits per second:
+void setup() {//init
+  Serial.begin(9600); //initailize serial communication at 9600 bits per second:
 
-//    myservo.attach(10); // servo attached to pin 10 of Arduino UNO
-// {
-// for(pos = 90; pos <= 180; pos += 1){    // goes from 90 degrees to 180 degrees:
-//   myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
-//   delay(15);                            //wait 15ms for the servo to reach the position:
-//   } 
-// for(pos = 180; pos >= 0; pos-= 1) {     // goes from 180 degrees to 0 degrees:
-//   myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
-//   delay(15);                            //wait 15ms for the servo to reach the position:
-//   }
-// for(pos = 0; pos<=90; pos += 1) {       //goes from 180 degrees to 0 degrees:
-//   myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
-//   delay(15);                            //wait 15ms for the servo to reach the position:
-//   }
-// }
-//    pinMode(RIGHT, INPUT); //set analog pin RIGHT as an input:
-//    pinMode(LEFT, INPUT);  //set analog pin RIGHT as an input:
-//    stop();
+   myservo.attach(10); // servo attached to pin 10 of Arduino UNO
+{
+for(pos = 90; pos <= 180; pos += 1){    // goes from 90 degrees to 180 degrees:
+  myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
+  delay(15);                            //wait 15ms for the servo to reach the position:
+  } 
+for(pos = 180; pos >= 0; pos-= 1) {     // goes from 180 degrees to 0 degrees:
+  myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
+  delay(15);                            //wait 15ms for the servo to reach the position:
+  }
+for(pos = 0; pos<=90; pos += 1) {       //goes from 180 degrees to 0 degrees:
+  myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
+  delay(15);                            //wait 15ms for the servo to reach the position:
+  }
+}
+   pinMode(RIGHT, INPUT); //set analog pin RIGHT as an input:
+   pinMode(LEFT, INPUT);  //set analog pin RIGHT as an input:
+   stop();
 }
 
 
 void loop() {                             
-  
-  delay(50);
+  delay(1000/FPS);
   distance = sonar.ping_cm();
   debug_dis(true,distance);
 
@@ -67,14 +68,14 @@ void loop() {
   Left_Value = !digitalRead(LEFT);
   
   //debug
-  debug(false);
+  debug_IR(false,Right_Value,Left_Value);
 
-  // int 
+  // int next action
   //  ===================================
   //  1       2        3         4      |
   //  front   right    left      stop   |
   //  ===================================
-  int nextact = action(d,distance,Right_Value,Left_Value);
+  int nextact = action(D,d,distance,Right_Value,Left_Value);
 
 
   switch(nextact){
@@ -94,7 +95,6 @@ void loop() {
       Serial.print("[system/ERROR]: action error");
       break;
   }
-  delay(150);
 }
 
 // define functions for motor
@@ -166,24 +166,26 @@ Motor4.run(RELEASE);
 }
 void debug_dis(bool enable,int distance){
   if (enable){
-    Serial.print("distance");                   
+    Serial.print("[system/DEBUG]: distance/");                   
     Serial.println(distance);                         // print the distance in serial monitor:
   }
 }
 
 
-void debug(bool enable){                               //debug on 9600 bits
+void debug_IR(bool enable, int Right_Value, int Left_Value){                               //debug on 9600 bits
   if (enable){
-    Serial.print("RIGHT");                      
-    Serial.println(Right_Value);                      // print the right IR sensor value in serial monitor:
-    Serial.print("LEFT");                       
-    Serial.println(Left_Value);                       //print the left IR sensor value in serial monitor:
+    if (Right_Value == 1){
+      Serial.println("[system/DEBUG]: RIGHT");     
+    }
+    if (Left_Value == 1){
+      Serial.println("[system/DEBUG]: LEFT");   
+    }
   }
 }
 
 
-int action(int d,int distance,int Right_Value,int Left_Value){
-if((distance > 1) && (distance < d)){            //check wheather the ultrasonic sensor's value stays between 1 to 15.
+int action(int D, int d,int distance,int Right_Value,int Left_Value){
+if((distance > d) && (distance < D)){            //check wheather the ultrasonic sensor's value stays between 1 to 15.
   //Move Forward:
   return 1;
 }else if((Right_Value==1) && (Left_Value==0)) {   //If the condition is 'true' then the statement below will execute:
@@ -192,7 +194,7 @@ if((distance > 1) && (distance < d)){            //check wheather the ultrasonic
 }else if((Right_Value==0)&&(Left_Value==1)) {     //If the condition is 'true' then the statement below will execute:
   // turn left
   return 3;
-}else if(distance > d) {                          //If the condition is 'true' then the statement below will execute:
+}else if(distance > D || distance < d) {                          //If the condition is 'true' then the statement below will execute:
 // stop
   return 4;
 }}
