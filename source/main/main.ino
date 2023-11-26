@@ -36,24 +36,24 @@ int pos=0;     //variable to store the servo position:
 void setup() {//init
   Serial.begin(9600); //initailize serial communication at 9600 bits per second:
 
-   myservo.attach(10); // servo attached to pin 10 of Arduino UNO
-{
-for(pos = 90; pos <= 180; pos += 1){    // goes from 90 degrees to 180 degrees:
-  myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
-  delay(15);                            //wait 15ms for the servo to reach the position:
-  } 
-for(pos = 180; pos >= 0; pos-= 1) {     // goes from 180 degrees to 0 degrees:
-  myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
-  delay(15);                            //wait 15ms for the servo to reach the position:
-  }
-for(pos = 0; pos<=90; pos += 1) {       //goes from 180 degrees to 0 degrees:
-  myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
-  delay(15);                            //wait 15ms for the servo to reach the position:
-  }
-}
-   pinMode(RIGHT, INPUT); //set analog pin RIGHT as an input:
-   pinMode(LEFT, INPUT);  //set analog pin RIGHT as an input:
-   stop();
+//    myservo.attach(10); // servo attached to pin 10 of Arduino UNO
+// {
+// for(pos = 90; pos <= 180; pos += 1){    // goes from 90 degrees to 180 degrees:
+//   myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
+//   delay(15);                            //wait 15ms for the servo to reach the position:
+//   } 
+// for(pos = 180; pos >= 0; pos-= 1) {     // goes from 180 degrees to 0 degrees:
+//   myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
+//   delay(15);                            //wait 15ms for the servo to reach the position:
+//   }
+// for(pos = 0; pos<=90; pos += 1) {       //goes from 180 degrees to 0 degrees:
+//   myservo.write(pos);                   //tell servo to move according to the value of 'pos' variable:
+//   delay(15);                            //wait 15ms for the servo to reach the position:
+//   }
+// }
+//    pinMode(RIGHT, INPUT); //set analog pin RIGHT as an input:
+//    pinMode(LEFT, INPUT);  //set analog pin RIGHT as an input:
+//    stop();
 }
 
 
