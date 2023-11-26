@@ -31,8 +31,8 @@ AF_DCMotor Motor4(4,MOTOR34_1KHZ);
 //  Servo myservo; //create servo object to control the servo:
 //  int pos=0;     //variable to store the servo position:
 
-void setup() { // the setup function runs only once when power on the board or reset the board:
-init_();
+void setup() {
+Serial.begin(9600); //initailize serial communication at 9600 bits per second:
 
 //    myservo.attach(10); // servo attached to pin 10 of Arduino UNO
 // {
@@ -54,7 +54,7 @@ init_();
 //    stop();
 }
 
-// // the lope function runs forever
+
 void loop() {                             
   
 delay(50);
@@ -176,32 +176,21 @@ void debug(bool enable){                               //debug on 9600 bits
   }
 }
 
-void init_(){  // init all setting
-Serial.begin(9600); //initailize serial communication at 9600 bits per second:
-}
 
 string action(){
 if((distance > 1) && (distance < d)){            //check wheather the ultrasonic sensor's value stays between 1 to 15.
-                                                  //If the condition is 'true' then the statement below will execute:
   //Move Forward:
-
-  
+  return "forward"
 }else if((Right_Value==1) && (Left_Value==0)) {   //If the condition is 'true' then the statement below will execute:
-  
   //Turn right                                                
-
-front2();
-delay(150);
-  
+  return "right"
 }else if((Right_Value==0)&&(Left_Value==1)) {     //If the condition is 'true' then the statement below will execute:
-  
-  delay(150);
-  
+  // turn left
+  return "left"
 }else if(distance > d) {                          //If the condition is 'true' then the statement below will execute:
-  
-stop();
-}
-}
+// stop
+  return "stop"
+}}
 
 
 // Motor1.setSpeed(230); //test FORWARD BACKWARD

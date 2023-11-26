@@ -19,3 +19,5 @@
 ![pic]( ./pic/device.png "icon" )
 ## LICENSE
 >[MIT](./LICENSE)
+## Repositorie INFO
+![Alt](https://repobeats.axiom.co/api/embed/6fca80b118a96d6b3443a363faf0cc999a7ec30e.svg "Repobeats analytics image")
