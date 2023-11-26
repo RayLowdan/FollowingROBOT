@@ -57,40 +57,45 @@ Serial.begin(9600); //initailize serial communication at 9600 bits per second:
 
 void loop() {                             
   
-delay(50);
-distance = sonar.ping_cm();
-debug_dis(true,distance);
+  delay(50);
+  distance = sonar.ping_cm();
+  debug_dis(true,distance);
 
 
-// IR value
-Right_Value = !digitalRead(RIGHT);
-Left_Value = !digitalRead(LEFT);
- 
-//debug
-debug(false);
-// if((distance > 1) && (distance < d)){            //check wheather the ultrasonic sensor's value stays between 1 to 15.
-//                                                   //If the condition is 'true' then the statement below will execute:
-//   //Move Forward:
+  // IR value
+  Right_Value = !digitalRead(RIGHT);
+  Left_Value = !digitalRead(LEFT);
+  
+  //debug
+  debug(false);
 
-  
-// }else if((Right_Value==1) && (Left_Value==0)) {   //If the condition is 'true' then the statement below will execute:
-  
-//   //Turn right                                                
+  // int 
+  //  ===================================
+  //  1       2        3         4      |
+  //  front   right    left      stop   |
+  //  ===================================
+  int nextact = action(d,distance,Right_Value,Left_Value);
 
-front2();
-delay(150);
-  
-// }else if((Right_Value==0)&&(Left_Value==1)) {     //If the condition is 'true' then the statement below will execute:
-  
-//   delay(150);
-  
-// }else if(distance > d) {                          //If the condition is 'true' then the statement below will execute:
-  
-// stop();
-// }
 
+  switch(nextact){
+    case 1 :
+      front1();
+      break;
+    case 2 :
+      turn_right();
+      break;
+    case 3 :
+      turn_left();
+      break;
+    case 4 :
+      stop();
+      break;
+    default:// when ERROR
+      Serial.print("[system/ERROR]: action error");
+      break;
+  }
+  delay(150);
 }
-
 
 // define functions for motor
 void turn_left(){
@@ -177,19 +182,19 @@ void debug(bool enable){                               //debug on 9600 bits
 }
 
 
-string action(){
+int action(int d,int distance,int Right_Value,int Left_Value){
 if((distance > 1) && (distance < d)){            //check wheather the ultrasonic sensor's value stays between 1 to 15.
   //Move Forward:
-  return "forward"
+  return 1;
 }else if((Right_Value==1) && (Left_Value==0)) {   //If the condition is 'true' then the statement below will execute:
   //Turn right                                                
-  return "right"
+  return 2;
 }else if((Right_Value==0)&&(Left_Value==1)) {     //If the condition is 'true' then the statement below will execute:
   // turn left
-  return "left"
+  return 3;
 }else if(distance > d) {                          //If the condition is 'true' then the statement below will execute:
 // stop
-  return "stop"
+  return 4;
 }}
 
 
