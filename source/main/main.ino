@@ -70,11 +70,11 @@ void loop() {
   //debug
   debug_IR(false,Right_Value,Left_Value);
 
-  // int next action
-  //  ===================================
-  //  1       2        3         4      |
-  //  front   right    left      stop   |
-  //  ===================================
+  //  define int next action
+  //  ===============================
+  //  1       2       3      4      |
+  //  front   right   left   stop   |
+  //  ===============================
   int nextact = action(D,d,distance,Right_Value,Left_Value);
 
 
@@ -166,7 +166,7 @@ Motor4.run(RELEASE);
 }
 void debug_dis(bool enable,int distance){
   if (enable){
-    Serial.print("[system/DEBUG]: distance/");                   
+    Serial.print("[system/DEBUG]: distance ::");                   
     Serial.println(distance);                         // print the distance in serial monitor:
   }
 }
@@ -185,18 +185,18 @@ void debug_IR(bool enable, int Right_Value, int Left_Value){                    
 
 
 int action(int D, int d,int distance,int Right_Value,int Left_Value){
-if((distance > d) && (distance < D)){            //check wheather the ultrasonic sensor's value stays between 1 to 15.
-  //Move Forward:
-  return 1;
-}else if((Right_Value==1) && (Left_Value==0)) {   //If the condition is 'true' then the statement below will execute:
+if(distance > D || distance < d){
+  // stop
+  return 4;
+}else if((Right_Value==1) && (Left_Value==0)) {
   //Turn right                                                
   return 2;
-}else if((Right_Value==0)&&(Left_Value==1)) {     //If the condition is 'true' then the statement below will execute:
+}else if((Right_Value==0) && (Left_Value==1)) {
   // turn left
   return 3;
-}else if(distance > D || distance < d) {                          //If the condition is 'true' then the statement below will execute:
-// stop
-  return 4;
+}else if((distance > d) && (distance < D)) {
+  //Move Forward
+  return 1;
 }}
 
 
