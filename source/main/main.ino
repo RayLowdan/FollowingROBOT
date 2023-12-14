@@ -17,8 +17,8 @@
 unsigned int distance = 0;
 unsigned int Right_Value = 0;
 unsigned int Left_Value = 0;
-int D=30;
-int d = 5;
+int D=50;
+int d = 10;
 int FPS = 100;
   
 
